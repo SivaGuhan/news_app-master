@@ -7,7 +7,7 @@ export const Feed = ({ articles }) => {
   const { data: session } = useSession();
   const handleClick = async (news) => {
     alert("Successfully Bookmarked!!");
-    await fetch(process.env.NEXT_URL+"/api/book", {
+    await fetch(process.env.NEXTAUTH_URL+"/api/book", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
