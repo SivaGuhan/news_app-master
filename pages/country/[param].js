@@ -3,10 +3,8 @@ import Head from "next/head";
 import { Toolbar } from "../../components/toolbar";
 import { RiBookmarkFill } from "react-icons/ri";
 import { useSession } from "next-auth/react";
-import { useState } from "react";
 
 export const Feed = ({ articles }) => {
-  const router = useRouter();
   const { data: session } = useSession();
   const handleClick = async (news) => {
     alert("Successfully Bookmarked!!");
