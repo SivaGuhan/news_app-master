@@ -8,7 +8,7 @@ export const Feed = ({ articles }) => {
   const { data: session } = useSession();
   const handleClick = async (news) => {
     alert("Successfully Bookmarked!!");
-    await fetch(process.env.NEXT_URL+"/api/book", {
+    await fetch(process.env.NEXT_PUBLIC_APP_URL+"/api/book", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -16,11 +16,11 @@ export const Feed = ({ articles }) => {
       body: JSON.stringify({
         title: news.title,
         description: news.description,
-        image: news.urlToImage,
-        url: news.url,
+        image: news.image_url,
+        url: news.link,
         email: session.user.email,
       }),
-    });
+    }).then(()=>console.log("done"))
   };
   return (
     <>
@@ -36,22 +36,24 @@ export const Feed = ({ articles }) => {
               key={index}
             >
               <h1
-                onClick={() => (window.location.href = article.url)}
+                onClick={() => (window.location.href = article.link)}
                 className="font-bold text-2xl text-center justify-center border-b-[5px] border-red-700 p-1"
               >
                 {article.title}
               </h1>
+              {!!article.description && (
               <p
-                onClick={() => (window.location.href = article.url)}
+                onClick={() => (window.location.href = article.link)}
                 className="my-5"
               >
                 {article.description}
               </p>
-              {!!article.urlToImage && (
+              )}
+              {!!article.image_url && (
                 <img
-                  onClick={() => (window.location.href = article.url)}
+                  onClick={() => (window.location.href = article.link)}
                   className="w-[50%] h-[50%] self-center"
-                  src={article.urlToImage}
+                  src={article.image_url}
                 />
               )}
               {session && (
@@ -73,18 +75,12 @@ export const Feed = ({ articles }) => {
 export const getServerSideProps = async (pageContext) => {
   const country = pageContext.query.param;
   const apiResponse = await fetch(
-    `https://newsapi.org/v2/top-headlines?country=${country}&pageSize=40`,
-    {
-      headers: {
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_NEWS_KEY}`,
-      },
-    }
+    `https://newsdata.io/api/1/news?apikey=${process.env.NEXT_PUBLIC_NEWS_KEY}&country=${country}&language=en`,
   );
   const apiJson = await apiResponse.json();
-  const { articles } = apiJson;
   return {
     props: {
-      articles,
+      articles:apiJson.results,
     },
   };
 };

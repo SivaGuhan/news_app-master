@@ -41,7 +41,7 @@ export const getServerSideProps = async (pageContext) => {
   let articles=[]
   const session = await getSession(pageContext)
   if(session){
-    await fetch(process.env.NEXT_URL+"/api/dis", {
+    await fetch(process.env.NEXT_PUBLIC_APP_URL+"/api/dis", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

@@ -39,10 +39,10 @@ export const Toolbar = () => {
           Entertainment
         </div>
         <div
-          onClick={() => router.push("/headlines/general")}
+          onClick={() => router.push("/headlines/environment")}
           className="p-8 font-sans cursor-pointer bold text-white hover:bg-red-500"
         >
-          General
+          Environment
         </div>
         <div
           onClick={() => router.push("/headlines/health")}
